@@ -4,22 +4,29 @@ import Show from "./show";
 
 class FetchEqData extends Component {
   state = {
+    startDate: null,
+    endDate: null,
     earthquakes: [
       {
         _id: null,
-        time: "",
+        time: null,
         location: null,
         mag: null,
+        url: undefined,
       },
     ],
   };
 
+  // handleStartDate = () => {
+  //   this.setState({ startDate: event.target.value });
+  // };
+
   fetchEarthquakes = async () => {
-    const url =
+    const mainUrl =
       "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-01-01&endtime=2021-01-02&minmagnitude=3";
     // const eqReq = await axios.get(url);
     // const eqData = eqReq.data;
-    const eqReq = await fetch(url);
+    const eqReq = await fetch(mainUrl);
     const eqData = await eqReq.json();
     for (let i in eqData.features) {
       this.setState({
@@ -30,6 +37,7 @@ class FetchEqData extends Component {
             location: eqData.features[i].properties.place.toString(),
             time: eqData.features[i].properties.time.toString(),
             mag: eqData.features[i].properties.mag.toString(),
+            url: eqData.features[i].properties.url.toString(),
           },
         ],
       });
@@ -38,39 +46,37 @@ class FetchEqData extends Component {
 
   render() {
     return (
-      <div>
-        <div className="container pt-3 pb-3"></div>
-        <div className="container">
-          <div className="row">
-            <div className="col">
-              <input
-                type="text"
-                className="form-control"
-                id="start"
-                placeholder="Start date(year-mm-dd)"
-                aria-label="Start date"
-                // required
-              />
-            </div>
-            <div className="col">
-              <input
-                type="text"
-                className="form-control"
-                id="end"
-                placeholder="End date(year-mm-dd)"
-                aria-label="End date"
-                // required
-              />
-            </div>
-            <div className="col-auto">
-              <button
-                type="submit"
-                className="btn btn-primary mb-3"
-                onClick={this.fetchEarthquakes}
-              >
-                Fetch
-              </button>
-            </div>
+      <div className="container pt-3" style={{ position: "sticky" }}>
+        <div className="row">
+          <div className="col">
+            <input
+              type="text"
+              className="form-control"
+              id="start"
+              placeholder="Start date(year-mm-dd)"
+              aria-label="Start date"
+              // required
+              // onChange={this.handleStartDate}
+            />
+          </div>
+          <div className="col">
+            <input
+              type="text"
+              className="form-control"
+              id="end"
+              placeholder="End date(year-mm-dd)"
+              aria-label="End date"
+              // required
+            />
+          </div>
+          <div className="col-auto">
+            <button
+              type="submit"
+              className="btn btn-primary mb-3"
+              onClick={this.fetchEarthquakes}
+            >
+              Fetch
+            </button>
           </div>
         </div>
 

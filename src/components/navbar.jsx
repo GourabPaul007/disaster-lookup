@@ -3,10 +3,13 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <nav
+      className="navbar sticky-top navbar-expand-lg navbar-dark"
+      style={{ background: "#1b0000" }}
+    >
       <div className="container-fluid">
         <a className="navbar-brand" href="/">
-          Navbar
+          Disaster Lookup
         </a>
         <button
           className="navbar-toggler"
