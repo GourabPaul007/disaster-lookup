@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Show from "./show";
 // const axios = require("axios");
 
+// starttime=2021-01-01&endtime=2021-01-02&minmagnitude=3
 class FetchEqData extends Component {
   state = {
     startDate: null,
@@ -17,16 +18,26 @@ class FetchEqData extends Component {
     ],
   };
 
-  // handleStartDate = () => {
-  //   this.setState({ startDate: event.target.value });
-  // };
-
   fetchEarthquakes = async () => {
-    const mainUrl =
-      "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-01-01&endtime=2021-01-02&minmagnitude=3";
     // const eqReq = await axios.get(url);
     // const eqData = eqReq.data;
-    const eqReq = await fetch(mainUrl);
+    let mainUrl =
+      "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&";
+
+    let date = new Date();
+    let currentDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+    date.setDate(date.getDate() - 1);
+    let previousDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+    console.log(currentDate);
+    let finalUrl =
+      this.state.startDate == null
+        ? mainUrl +
+          `starttime=${previousDate}&endtime=${currentDate}&minmagnitude=3`
+        : mainUrl +
+          `starttime=${this.state.startDate}&` +
+          `endtime=${this.state.endDate}&` +
+          `minmagnitude=3`;
+    const eqReq = await fetch(finalUrl);
     const eqData = await eqReq.json();
     for (let i in eqData.features) {
       this.setState({
@@ -56,7 +67,9 @@ class FetchEqData extends Component {
               placeholder="Start date(year-mm-dd)"
               aria-label="Start date"
               // required
-              // onChange={this.handleStartDate}
+              onChange={(event) => {
+                this.setState({ startDate: event.target.value });
+              }}
             />
           </div>
           <div className="col">
@@ -67,6 +80,9 @@ class FetchEqData extends Component {
               placeholder="End date(year-mm-dd)"
               aria-label="End date"
               // required
+              onChange={(event) => {
+                this.setState({ endDate: event.target.value });
+              }}
             />
           </div>
           <div className="col-auto">
@@ -82,16 +98,6 @@ class FetchEqData extends Component {
 
         <Show eqs={this.state.earthquakes} />
       </div>
-
-      // <div className="container">
-      //   <input className="input" type="text" />
-      //   <input type="text" />
-      //   <button className="btn btn-primary" onClick={this.fetchEarthquakes}>
-      //     Fetch
-      //   </button>
-
-      //   <Show eqs={this.state.earthquakes} />
-      // </div>
     );
   }
 }
