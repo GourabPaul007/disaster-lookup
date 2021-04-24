@@ -42,7 +42,7 @@ const Show = (props) => {
           </div>
           <div className="col-1 justify-content-start">
             <a className="btn btn-link" href={eq.url}>
-              🡭
+              {eq.mag ? "🡭" : null}
             </a>
           </div>
         </div>

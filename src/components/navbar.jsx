@@ -5,7 +5,7 @@ const Navbar = () => {
   return (
     <nav
       className="navbar sticky-top navbar-expand-lg navbar-dark"
-      style={{ background: "#1b0000" }}
+      style={{ background: "#13001a" }}
     >
       <div className="container-fluid">
         <a className="navbar-brand" href="/">
@@ -34,11 +34,11 @@ const Navbar = () => {
                 Earthquakes
               </Link>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link className="nav-link" aria-current="page" to="/tsunamis">
                 Tsunamis
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

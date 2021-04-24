@@ -18,26 +18,31 @@ class FetchEqData extends Component {
     ],
   };
 
-  fetchEarthquakes = async () => {
-    // const eqReq = await axios.get(url);
-    // const eqData = eqReq.data;
+  //Making an URL for fetchEarthquakes()
+  makeUrl = () => {
     let mainUrl =
       "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&";
 
     let date = new Date();
-    let currentDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+    let currentDate = date.toISOString().split("T")[0];
+    //`${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
     date.setDate(date.getDate() - 1);
-    let previousDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+    let previousDate = date.toISOString().split("T")[0];
     console.log(currentDate);
     let finalUrl =
-      this.state.startDate == null
+      this.state.startDate || this.state.endDate == null
         ? mainUrl +
           `starttime=${previousDate}&endtime=${currentDate}&minmagnitude=3`
         : mainUrl +
           `starttime=${this.state.startDate}&` +
           `endtime=${this.state.endDate}&` +
           `minmagnitude=3`;
-    const eqReq = await fetch(finalUrl);
+    return finalUrl;
+  };
+
+  //Fetching Earthquakes
+  fetchEarthquakes = async () => {
+    const eqReq = await fetch(this.makeUrl());
     const eqData = await eqReq.json();
     for (let i in eqData.features) {
       this.setState({
@@ -57,46 +62,57 @@ class FetchEqData extends Component {
 
   render() {
     return (
-      <div className="container pt-3" style={{ position: "sticky" }}>
-        <div className="row">
-          <div className="col">
-            <input
-              type="text"
-              className="form-control"
-              id="start"
-              placeholder="Start date(year-mm-dd)"
-              aria-label="Start date"
-              // required
-              onChange={(event) => {
-                this.setState({ startDate: event.target.value });
-              }}
-            />
+      <div
+        className="container-fluid px-0 pt-3"
+        style={{
+          backgroundColor: "#3e2723",
+          width: "100",
+          height: "100",
+        }}
+      >
+        <div className="container">
+          <div className="row">
+            {/* StartDate input */}
+            <div className="col">
+              <input
+                type="text"
+                className="form-control"
+                id="start"
+                placeholder="Start date(year-mm-dd)"
+                aria-label="Start date"
+                // required
+                onChange={(event) => {
+                  this.setState({ startDate: event.target.value });
+                }}
+              />
+            </div>
+            {/* EndDate input */}
+            <div className="col">
+              <input
+                type="text"
+                className="form-control"
+                id="end"
+                placeholder="End date(year-mm-dd)"
+                aria-label="End date"
+                // required
+                onChange={(event) => {
+                  this.setState({ endDate: event.target.value });
+                }}
+              />
+            </div>
+            <div className="col-auto">
+              <button
+                type="submit"
+                className="btn btn-primary mb-3"
+                onClick={this.fetchEarthquakes}
+              >
+                Fetch
+              </button>
+            </div>
           </div>
-          <div className="col">
-            <input
-              type="text"
-              className="form-control"
-              id="end"
-              placeholder="End date(year-mm-dd)"
-              aria-label="End date"
-              // required
-              onChange={(event) => {
-                this.setState({ endDate: event.target.value });
-              }}
-            />
-          </div>
-          <div className="col-auto">
-            <button
-              type="submit"
-              className="btn btn-primary mb-3"
-              onClick={this.fetchEarthquakes}
-            >
-              Fetch
-            </button>
-          </div>
-        </div>
 
-        <Show eqs={this.state.earthquakes} />
+          <Show eqs={this.state.earthquakes} />
+        </div>
       </div>
     );
   }
