@@ -32,7 +32,7 @@ const Show = (props) => {
       {props.eqs.map((eq) => (
         <div
           className="d-flex row justify-content-around mt-3 mb-3"
-          style={{ color: "white" }}
+          // style={{ color: "white" }}
           key={eq._id}
         >
           <div className="col-2 justify-content-end">{eq.mag}</div>

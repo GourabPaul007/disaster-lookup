@@ -65,7 +65,7 @@ class FetchEqData extends Component {
       <div
         className="container-fluid px-0 pt-3"
         style={{
-          backgroundColor: "#3e2723",
+          backgroundColor: "",
           width: "100",
           height: "100",
         }}
