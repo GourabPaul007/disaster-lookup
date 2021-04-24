@@ -1,5 +1,6 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import mountain from "../resources/images/mountain.jpg";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [buttonDisplay, setButtonDisplay] = useState("none");
@@ -50,7 +51,7 @@ const Home = () => {
           <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z" />
         </svg>
       </div>
-      <a
+      <Link
         style={{
           fontStyle: "bold",
           fontSize: "36",
@@ -59,11 +60,11 @@ const Home = () => {
         }}
         type="button"
         class="btn btn-primary"
-        href="/earthquakes"
+        to="/earthquakes"
         role="button"
       >
         Earthquakes
-      </a>
+      </Link>
       {/* <Link to="/earthquakes">Earthquakes</Link> */}
     </div>
   );
