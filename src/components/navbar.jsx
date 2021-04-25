@@ -1,6 +1,4 @@
 import { Link } from "react-router-dom";
-// import FetchData from "./fetchEqData";
-
 const Navbar = () => {
   return (
     <nav
@@ -12,7 +10,7 @@ const Navbar = () => {
           Disaster Lookup
         </a>
         <button
-          className="navbar-toggler"
+          className="navbar-toggler collapsed"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
